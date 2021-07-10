@@ -41,6 +41,15 @@ Or install it yourself as:
 $ gem install association_scope
 ```
 
+Now you can use `acts_as_association_scope` in your models.
+
+## Known Issues
+* This gem works with `reflections`.
+To make this work, the `acts_as_association_scope` call has to be below your association definitions.
+* Database views do not have a primary key.
+To use distinct on rows, all values of this row must be of types other than json.
+Workaround: Migrate JSON columns to JSONB
+
 ## Contributing
 Contribution directions go here.
 
