@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2021_07_10_100315) do
 
   create_table "topics", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_topics_on_user_id"
@@ -25,4 +26,5 @@ ActiveRecord::Schema.define(version: 2021_07_10_100315) do
   end
 
   add_foreign_key "topics", "users"
+  add_foreign_key "topics", "users", column: "creator_id"
 end

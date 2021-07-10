@@ -13,3 +13,9 @@
 spec/debug.log
 
 spec/dummy/db/test.sqlite3
+
+.examples.txt
+
+spec/dummy/log/
+
+spec/dummy/db/development.sqlite3
