@@ -49,9 +49,3 @@ To make this work, the `acts_as_association_scope` call has to be below your ass
 * Database views do not have a primary key.
 To use distinct on rows, all values of this row must be of types other than json.
 Workaround: Migrate JSON columns to JSONB
-
-## Contributing
-Contribution directions go here.
-
-## License
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
