@@ -15,4 +15,14 @@ RSpec.describe 'Basics' do
       it { expect(Topic.all.creators).to match_array [user2, user3] }
     end
   end
+
+  describe 'has_many' do
+    context 'with standard association' do
+      it { expect(User.where(id: user1.id).topics).to eq [topic1] }
+    end
+
+    context 'with other named association' do
+      it { expect(User.where(id: user1.id).posts).to eq [topic1] }
+    end
+  end
 end
