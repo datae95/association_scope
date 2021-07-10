@@ -22,6 +22,7 @@ end
 load_schema
 
 RSpec.configure do |config|
+  config.example_status_persistence_file_path = '.examples.txt'
   config.around(:example) do |example|
     ActiveRecord::Base.transaction do
       example.run
