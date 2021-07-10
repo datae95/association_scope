@@ -4,7 +4,7 @@ When I have
 ```ruby
 current_user.topics # => #<ActiveRecord::Relation [...]>
 ```
-why can't I use this on a collection of users like
+why can't I use the same construction on a collection of users like
 ```ruby
 current_user.friends.topics # => #<ActiveRecord::Relation [...]>
 ```
@@ -21,8 +21,6 @@ And `belongs_to` is the easiest part.
 
 When you have this problem, this gem is for you!
 
-## Usage
-How to use my plugin.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -41,7 +39,21 @@ Or install it yourself as:
 $ gem install association_scope
 ```
 
-Now you can use `acts_as_association_scope` in your models.
+
+## Usage
+After installation you can use `acts_as_association_scope` in your models:
+```ruby
+class Topic < ApplicationRecord
+  belongs_to :user
+  acts_as_association_scope
+end
+```
+Now you can use your associations as scopes and chain other scopes with them.
+When you have the classes `User` with many `Topic`s and every `Topic` has many `Post`s with many `Comment`s and all of them call `acts_as_association_scope`, you can write
+```ruby
+User.first.topics.posts.comments
+```
+to retrieve all comments of all posts of all topics of your first user.
 
 ## Known Issues
 * This gem works with `reflections`.
