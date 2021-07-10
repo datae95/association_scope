@@ -22,5 +22,10 @@ end
 load_schema
 
 RSpec.configure do |config|
-  # some (optional) config here
+  config.around(:example) do |example|
+    ActiveRecord::Base.transaction do
+      example.run
+      raise ActiveRecord::Rollback
+    end
+  end
 end
