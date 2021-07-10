@@ -1,10 +1,27 @@
-module AssociationScope
+# TODO
+#   Polymorphy
+#   What happens with multiple join tables for the same models?
+
+# Registers association scopes for every association
+#   belongs_to
+#   Optional true
+#   has_many
+#   has_one
+#   has_and_belongs_to_many
+#   Through
+#   Named associations
+#   Inverse
+
+# Known Issues:
+#   Views do not have a primary key. To use distinct on rows, all values of this row must be of types other than json. Workaround: Migrate JSON columns to JSONB
+#   `acts_as_associationscope` method must be placed below of association definitions
+module AssociationScopes
   extend ActiveSupport::Concern
 end
 
 module ActiveRecord
   class Base
-    def self.acts_as_association_scope only: self.reflections.keys, except: []
+    def self.acts_as_associationscope only: self.reflections.keys, except: []
       # Apply given filters.
       # Don't be picky about singular or plural. Pluralize everything.
       raise ArgumentError.new("Don't use :only and :except together!") unless only == self.reflections.keys || except == []
