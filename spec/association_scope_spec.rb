@@ -34,6 +34,9 @@ RSpec.describe 'Basics' do
 
     context 'with other named association' do
       it { expect(User.where(id: user1.id).posts).to eq [topic1] }
+      it { expect(User.where(id: user2.id).posts).to match_array [topic2,topic3] }
+      it { expect(User.where(id: user3.id).posts).to eq [] }
+      it { expect(User.posts.to_a).to match_array Topic.all.to_a }
     end
 
     context 'through' do
