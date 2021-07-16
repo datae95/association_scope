@@ -40,7 +40,9 @@ RSpec.describe 'Basics' do
     end
 
     context 'through' do
-      skip
+      context 'with standard association' do
+        it { expect(Account.where(id: account1.id).topics).to eq account1.user.topics }
+      end
     end
   end
 
