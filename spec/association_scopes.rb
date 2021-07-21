@@ -21,11 +21,11 @@ end
 
 module ActiveRecord
   class Base
-    def self.acts_as_associationscope only: self.reflections.keys, except: []
+    def self.acts_as_associationscope only: reflections.keys, except: []
       # Apply given filters.
       # Don't be picky about singular or plural. Pluralize everything.
-      raise ArgumentError.new("Don't use :only and :except together!") unless only == self.reflections.keys || except == []
-      reflections = self.reflections.select{|key, _r| only.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) && !except.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) }
+      raise ArgumentError.new("Don't use :only and :except together!") unless only == reflections.keys || except == []
+      reflections = self.reflections.select { |key, _r| only.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) && !except.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) }
 
       # For each reflection create an association scope.
       reflections.each do |association, reflection|
@@ -61,12 +61,12 @@ module ActiveRecord
             if foreign_key.present?
               own_table_name = class_name.to_s.pluralize.underscore
               class_name
-                .joins("JOIN #{table_name.to_s} ON #{table_name.to_s}.#{foreign_key} = #{own_table_name}.id")
+                .joins("JOIN #{table_name} ON #{table_name}.#{foreign_key} = #{own_table_name}.id")
             else
               class_name
                 .joins(table_name)
             end
-              .where(table_name => { identifier => select(identifier) })
+              .where(table_name => {identifier => select(identifier)})
               .distinct
           end
         when "HasAndBelongsToManyReflection"
@@ -80,19 +80,19 @@ module ActiveRecord
           end
         when "ThroughReflection"
           # where to get singular/plural
-          new_reflection = reflection.name.to_s.singularize.camelize.constantize.reflections[self.to_s.underscore.pluralize]
+          new_reflection = reflection.name.to_s.singularize.camelize.constantize.reflections[to_s.underscore.pluralize]
           second_join = new_reflection&.options[:through]&.to_s&.to_sym
           first_join = reflections[first_join.to_s]&.options&.has_key?(:inverse_of) ? reflections[first_join.to_s]&.options[:inverse_of] : new_reflection.active_record.to_s.underscore.to_sym
 
           scope association.pluralize.to_sym, -> do
             class_name
               .joins(first_join => second_join)
-              .where(first_join => { second_join => self})
+              .where(first_join => {second_join => self})
               .distinct
           end
         end
       rescue NoMethodError => e
-        puts "There is no corresponding association :#{self.to_s.underscore.pluralize} in #{reflection.name.to_s.singularize.camelize.constantize}"
+        puts "There is no corresponding association :#{to_s.underscore.pluralize} in #{reflection.name.to_s.singularize.camelize.constantize}"
       rescue NameError => e
         puts "add association #{association} explicitly: explicit: {#{association}: class_name}"
       end
