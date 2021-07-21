@@ -1,5 +1,6 @@
+require 'association_scope/version'
+
 module AssociationScope
-  extend ActiveSupport::Concern
 end
 
 module ActiveRecord
