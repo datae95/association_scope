@@ -55,6 +55,10 @@ User.first.topics.posts.comments
 ```
 to retrieve all comments of all posts of all topics of your first user.
 
+## Development
+Clone the app and run `bundle`.
+To use `rails console` you have to navigate to the dummy application `cd spec/dummy`.
+
 ## Known Issues
 * This gem works with `reflections`.
 To make this work, the `acts_as_association_scope` call has to be below your association definitions.
