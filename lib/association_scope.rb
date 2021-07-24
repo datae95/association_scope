@@ -1,4 +1,7 @@
 require "association_scope/version"
+require "association_scope/scope"
+require "association_scope/scope/has_many_reflection"
+require "association_scope/scope/belongs_to_reflection"
 
 module AssociationScope
 end
@@ -9,8 +12,13 @@ module ActiveRecord
       # Apply given filters.
       # Don't be picky about singular or plural. Pluralize everything.
       raise ArgumentError.new("Don't use :only and :except together!") unless only == reflections.keys || except == []
-      reflections = self.reflections.select { |key, _r| only.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) && !except.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) }
 
+      ::AssociationScope::Scope.inject_scopes(self)
+    end
+  end
+end
+=begin
+      reflections = self.reflections.select { |key, _r| only.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) && !except.map(&:to_s).map(&:pluralize).include?(key.to_s.pluralize) }
       # For each reflection create an association scope.
       reflections.each do |association, reflection|
         reflection_type = reflection.class.to_s.split("::").last
@@ -83,3 +91,4 @@ module ActiveRecord
     end
   end
 end
+=end
