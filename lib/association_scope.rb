@@ -1,6 +1,7 @@
 require "association_scope/version"
 require "association_scope/scope"
 require "association_scope/scope/has_many_reflection"
+require "association_scope/scope/has_one_reflection"
 require "association_scope/scope/belongs_to_reflection"
 
 module AssociationScope

@@ -11,7 +11,7 @@ module AssociationScope
       model.reflections.each do |association, details|
         scope_type = details.class.to_s.split('::').last
 
-        "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply if const_defined?(scope_type)
+        "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply
       end
     end
   end

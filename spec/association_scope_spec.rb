@@ -19,12 +19,6 @@ RSpec.describe "Basics" do
   end
 
   describe "has_one" do
-    context "with standard association" do
-      it { expect(User.where(id: user1.id).accounts).to eq [account1] }
-      it { expect(User.where(id: user3.id).accounts).to eq [] }
-      it { expect(User.accounts.to_a).to match_array Account.all.to_a }
-    end
-
     context "through" do
       skip
     end
