@@ -2,7 +2,6 @@ module AssociationScope
   class Scope
     class BelongsToReflection < Scope
       def apply
-        model = @model
         association = @association
         details = model.reflections[association]
         class_name = details.options[:class_name]&.constantize || association.camelize.constantize

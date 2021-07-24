@@ -5,7 +5,6 @@ module AssociationScope
         details = model.reflections[@association]
         class_name = details.options[:class_name]&.constantize || association.singularize.camelize.constantize
         association = @association.pluralize
-        model = @model
         column_name = model.to_s.underscore
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
