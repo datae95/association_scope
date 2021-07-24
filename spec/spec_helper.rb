@@ -8,7 +8,7 @@ require "active_record"
 require "bundler/setup"
 Bundler.setup
 
-require "association_scope" # and any other gems you need
+require "association_scope"
 
 def load_schema
   config = YAML.load(IO.read(File.dirname(__FILE__) + "/dummy/config/database.yml"))
