@@ -3,9 +3,9 @@ RSpec.describe "AssociationScope::BelongsToReflection" do
   let!(:user2) { User.create! }
   let!(:user3) { User.create! }
 
-  let!(:topic1) { Topic.create!(user: user1) }
-  let!(:topic2) { Topic.create!(user: user2) }
-  let!(:topic3) { Topic.create!(user: user2) }
+  let!(:topic1) { Topic.create!(user: user1, creator: user2) }
+  let!(:topic2) { Topic.create!(user: user2, creator: user3) }
+  let!(:topic3) { Topic.create!(user: user2, creator: nil) }
 
   context "with standard association" do
     it { expect(Topic.all.users).to match_array [user1, user2] }

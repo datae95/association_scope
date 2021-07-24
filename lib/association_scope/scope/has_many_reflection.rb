@@ -2,6 +2,7 @@ module AssociationScope
   class Scope
     class HasManyReflection < Scope
       def apply
+        details = model.reflections[association]
         class_name = details.options[:class_name]&.constantize || association.singularize.camelize.constantize
         association = @association
         model = @model
