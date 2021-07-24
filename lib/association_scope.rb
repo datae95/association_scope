@@ -22,14 +22,13 @@ module ActiveRecord
         when "HasManyReflection", "HasOneReflection"
           scope association.pluralize.to_sym, -> do
             column_name ||= reflection.options[:as] || self.class.to_s.split("::").first.underscore.to_sym
-
             class_name
               .where(column_name => self)
               .distinct
           end
+
         when "BelongsToReflection"
           column_name ||= association.singularize.to_sym
-          identifier = "#{column_name}_id".to_sym
           foreign_key = reflection.options[:foreign_key]
 
           # The other side of the association can be has many or has one.
@@ -50,11 +49,11 @@ module ActiveRecord
               class_name
                 .joins(table_name)
             end
-              .where(table_name => {identifier => select(identifier)})
+              .where(table_name => {column_name => select("#{column_name}_id".to_sym)})
               .distinct
           end
-        when "HasAndBelongsToManyReflection"
 
+        when "HasAndBelongsToManyReflection"
           scope association.pluralize.to_sym, -> do
             table_name = self.class.to_s.split("::")&.first&.underscore&.pluralize&.to_sym
             class_name
@@ -62,6 +61,7 @@ module ActiveRecord
               .where(table_name => self)
               .distinct
           end
+
         when "ThroughReflection"
           # where to get singular/plural
           new_reflection = reflection.name.to_s.singularize.camelize.constantize.reflections[to_s.underscore.pluralize]

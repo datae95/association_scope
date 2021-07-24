@@ -8,7 +8,7 @@ RSpec.describe "Basics" do
 
   let!(:topic1) { Topic.create!(user: user1, creator: user2) }
   let!(:topic2) { Topic.create!(user: user2, creator: user3) }
-  let!(:topic3) { Topic.create!(user: user2) }
+  let!(:topic3) { Topic.create!(user: user2, creator: nil) }
 
   describe "belongs_to:" do
     context "with standard association" do
