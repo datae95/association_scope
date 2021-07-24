@@ -10,20 +10,6 @@ RSpec.describe "Basics" do
   let!(:topic2) { Topic.create!(user: user2, creator: user3) }
   let!(:topic3) { Topic.create!(user: user2, creator: nil) }
 
-  describe "belongs_to:" do
-    context "with standard association" do
-      it { expect(Topic.all.users).to match_array [user1, user2] }
-    end
-
-    context "with other named association" do
-      it { expect(Topic.all.creators).to match_array [user2, user3] }
-    end
-
-    context "when optional" do
-      it { expect(Topic.where(id: topic3.id).creators).to eq [] }
-    end
-  end
-
   describe "has_many" do
     context "through" do
       context "with standard association" do
