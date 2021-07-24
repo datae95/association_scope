@@ -3,6 +3,7 @@ require "association_scope/scope"
 require "association_scope/scope/has_many_reflection"
 require "association_scope/scope/has_one_reflection"
 require "association_scope/scope/belongs_to_reflection"
+require "association_scope/scope/has_and_belongs_to_many_reflection"
 
 module AssociationScope
 end
