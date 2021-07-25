@@ -19,7 +19,7 @@ end
 over and over again across all of my models to write `Topic.of_users(users)` when I wanted to write `users.topics` instead.
 And `belongs_to` is the easiest part.
 
-When you have this problem, this gem is for you!
+When you have this problem, the AssociationScope gem is for you!
 
 
 ## Installation
