@@ -16,7 +16,7 @@ class Topic < ApplicationRecord
   scope :of_users, -> (users) { joins(:user).where(users: users) }
 end
 ```
-over and over again across all of my models to write `Topic.of_users(users)` when I want to write `users.topics` instead.
+over and over again across all of my models to write `Topic.of_users(users)` when I wanted to write `users.topics` instead.
 And `belongs_to` is the easiest part.
 
 When you have this problem, this gem is for you!
@@ -62,6 +62,19 @@ To use `rails console` you have to navigate to the dummy application `cd spec/du
 ## Known Issues
 * This gem works with `reflections`.
 To make this work, the `acts_as_association_scope` call has to be below your association definitions.
+```ruby
+# won't work
+class Topic
+  acts_as_association_scope
+  belongs_to :user
+end
+
+# works
+class Topic
+  belongs_to :user
+  acts_as_association_scope
+end
+```
 * Database views do not have a primary key.
 To use distinct on rows, all values of this row must be of types other than json.
 Workaround: Migrate JSON columns to JSONB
