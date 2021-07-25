@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_10_142921) do
+ActiveRecord::Schema.define(version: 2021_07_25_154411) do
+
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -30,6 +31,15 @@ ActiveRecord::Schema.define(version: 2021_07_10_142921) do
     t.index ["part_id"], name: "index_assemblies_parts_on_part_id"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["topic_id"], name: "index_likes_on_topic_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "parts", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -40,7 +50,6 @@ ActiveRecord::Schema.define(version: 2021_07_10_142921) do
     t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id"], name: "index_topics_on_creator_id"
     t.index ["user_id"], name: "index_topics_on_user_id"
   end
 
@@ -50,5 +59,8 @@ ActiveRecord::Schema.define(version: 2021_07_10_142921) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "likes", "topics"
+  add_foreign_key "likes", "users"
   add_foreign_key "topics", "users"
+  add_foreign_key "topics", "users", column: "creator_id"
 end

@@ -3,5 +3,8 @@ class User < ApplicationRecord
   has_many :posts, class_name: "Topic"
   has_one :account
 
+  has_many :likes
+  has_many :liked_topics, through: :likes, class_name: 'Topic', source: :topic
+
   acts_as_association_scope
 end
