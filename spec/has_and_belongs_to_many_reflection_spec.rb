@@ -18,8 +18,4 @@ RSpec.describe "AssociationScope::HasAndBelongsToManyReflection" do
       it { expect(Part.where(id: part3.id).assemblies).to eq [] }
     end
   end
-
-  context 'with join model' do
-    skip
-  end
 end

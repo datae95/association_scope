@@ -17,4 +17,8 @@ RSpec.describe "AssociationScope::ThroughReflection" do
     it { expect(Account.all.topics).to match_array Account.users.topics }
     it { expect(Topic.all.accounts).to match_array Topic.users.accounts }
   end
+
+  context "with User<-(m:1)->Like<-(1:n)->Topic" do
+    skip
+  end
 end

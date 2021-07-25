@@ -30,5 +30,9 @@ RSpec.describe "AssociationScope::BelongsToReflection" do
     context "with standard association" do
       it { expect(Account.users).to match_array [user1, user2, user4] }
     end
+
+    context "with named association" do
+      skip
+    end
   end
 end
