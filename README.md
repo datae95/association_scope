@@ -76,5 +76,5 @@ class Topic
 end
 ```
 * Database views do not have a primary key.
-To use distinct on rows, all values of this row must be of types other than json.
+To use `distinct` on rows, all values of this row must be of types other than json.
 Workaround: Migrate JSON columns to JSONB
