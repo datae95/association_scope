@@ -6,9 +6,9 @@ module AssociationScope
         association = @association.pluralize
         class_name = details.options[:class_name]&.constantize || association.singularize.camelize.constantize
 
-        new_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
-        first_join = new_reflection.options[:through]
-        second_join = if new_reflection.source_reflection.class.to_s.split("::").last == "HasOneReflection"
+        inverse_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
+        first_join = inverse_reflection.options[:through]
+        second_join = if inverse_reflection.source_reflection.class.to_s.split("::").last == "HasOneReflection"
           model.to_s.underscore.to_sym
         else
           model.to_s.underscore.pluralize.to_sym

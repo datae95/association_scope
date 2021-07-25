@@ -9,8 +9,8 @@ module AssociationScope
         foreign_key = details.options[:foreign_key]
         own_table_name = class_name.to_s.pluralize.underscore
 
-        new_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
-        table_name = if new_reflection.source_reflection.class.to_s.split("::").last == "HasOneReflection"
+        inverse_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
+        table_name = if inverse_reflection.source_reflection.class.to_s.split("::").last == "HasOneReflection"
           model.to_s.underscore.to_sym
         else
           model.to_s.underscore.pluralize.to_sym
