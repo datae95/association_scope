@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_31_103820) do
+ActiveRecord::Schema.define(version: 2021_07_31_134930) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -32,8 +32,10 @@ ActiveRecord::Schema.define(version: 2021_07_31_103820) do
   end
 
   create_table "houses", force: :cascade do |t|
+    t.integer "owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["owner_id"], name: "index_houses_on_owner_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -43,6 +45,11 @@ ActiveRecord::Schema.define(version: 2021_07_31_103820) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["topic_id"], name: "index_likes_on_topic_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "owners", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "parts", force: :cascade do |t|
@@ -72,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_07_31_103820) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "houses", "owners"
   add_foreign_key "likes", "topics"
   add_foreign_key "likes", "users"
   add_foreign_key "rooms", "houses"
