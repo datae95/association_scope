@@ -8,6 +8,8 @@ module AssociationScope
         table_name = model.to_s.underscore.pluralize.to_sym
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          raise AssociationMissingError.new(missing_in: class_name, association: table_name) unless class_name.reflections.has_key?(table_name.to_s)
+
           scope association, -> do
             class_name
               .joins(table_name)

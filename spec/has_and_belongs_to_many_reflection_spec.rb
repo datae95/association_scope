@@ -22,4 +22,8 @@ RSpec.describe "HasAndBelongsToManyReflection" do
   context 'when named association' do
     skip
   end
+
+  context 'with missing corresponding association' do
+    it { expect{ Resident.all }.to raise_error(AssociationScope::AssociationMissingError, "Association residents missing in House!" ) }
+  end
 end
