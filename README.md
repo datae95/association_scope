@@ -26,19 +26,13 @@ When you have this problem, the AssociationScope gem is for you!
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'association_scope'
+gem 'association_scope', git: 'https://github.com/datae95/association_scope', branch: :main
 ```
 
 And then execute:
 ```bash
 $ bundle
 ```
-
-Or install it yourself as:
-```bash
-$ gem install association_scope
-```
-
 
 ## Usage
 After installation you can use `acts_as_association_scope` in your models:
