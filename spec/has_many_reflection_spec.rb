@@ -20,4 +20,8 @@ RSpec.describe "HasManyReflection" do
     it { expect(User.where(id: user3.id).posts).to eq [] }
     it { expect(User.posts.to_a).to match_array Topic.all.to_a }
   end
+
+  context 'with missing corresponding belongs to association' do
+    it { expect{ Owner.all }.to raise_error AssociationScope::AssociationMissingError, "Association owner missing in House!" }
+  end
 end
