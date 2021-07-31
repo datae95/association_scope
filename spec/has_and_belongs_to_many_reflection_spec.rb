@@ -1,4 +1,4 @@
-RSpec.describe "AssociationScope::HasAndBelongsToManyReflection" do
+RSpec.describe "HasAndBelongsToManyReflection" do
   context 'with standard join table' do
     let!(:part1) { Part.create! }
     let!(:part2) { Part.create! }
@@ -17,5 +17,9 @@ RSpec.describe "AssociationScope::HasAndBelongsToManyReflection" do
       it { expect(Part.where(id: part2.id).assemblies).to match_array [assembly1, assembly2] }
       it { expect(Part.where(id: part3.id).assemblies).to eq [] }
     end
+  end
+
+  context 'when named association' do
+    skip
   end
 end

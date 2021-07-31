@@ -1,4 +1,4 @@
-RSpec.describe "AssociationScope::ThroughReflection" do
+RSpec.describe "ThroughReflection" do
   let!(:user1) { User.create! }
   let!(:user2) { User.create! }
   let!(:user3) { User.create! }

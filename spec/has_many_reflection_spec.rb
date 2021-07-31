@@ -1,4 +1,4 @@
-RSpec.describe "AssociationScope::HasManyReflection" do
+RSpec.describe "HasManyReflection" do
   let!(:user1) { User.create! }
   let!(:user2) { User.create! }
   let!(:user3) { User.create! }
@@ -14,7 +14,7 @@ RSpec.describe "AssociationScope::HasManyReflection" do
     it { expect(User.topics.to_a).to match_array Topic.all.to_a }
   end
 
-  context "with other named association" do
+  context "with named association" do
     it { expect(User.where(id: user1.id).posts).to eq [topic1] }
     it { expect(User.where(id: user2.id).posts).to match_array [topic2, topic3] }
     it { expect(User.where(id: user3.id).posts).to eq [] }
