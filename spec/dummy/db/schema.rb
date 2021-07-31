@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_31_134930) do
+ActiveRecord::Schema.define(version: 2021_07_31_140616) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -31,10 +31,17 @@ ActiveRecord::Schema.define(version: 2021_07_31_134930) do
     t.index ["part_id"], name: "index_assemblies_parts_on_part_id"
   end
 
-  create_table "houses", force: :cascade do |t|
-    t.integer "owner_id", null: false
+  create_table "holders", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "houses", force: :cascade do |t|
+    t.integer "owner_id", null: false
+    t.integer "holder_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["holder_id"], name: "index_houses_on_holder_id"
     t.index ["owner_id"], name: "index_houses_on_owner_id"
   end
 
@@ -69,7 +76,6 @@ ActiveRecord::Schema.define(version: 2021_07_31_134930) do
     t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["creator_id"], name: "index_topics_on_creator_id"
     t.index ["user_id"], name: "index_topics_on_user_id"
   end
 
@@ -79,9 +85,11 @@ ActiveRecord::Schema.define(version: 2021_07_31_134930) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "houses", "holders"
   add_foreign_key "houses", "owners"
   add_foreign_key "likes", "topics"
   add_foreign_key "likes", "users"
   add_foreign_key "rooms", "houses"
   add_foreign_key "topics", "users"
+  add_foreign_key "topics", "users", column: "creator_id"
 end
