@@ -16,7 +16,7 @@ module AssociationScope
         when "HasManyReflection"
           table_name = model.to_s.underscore.pluralize.to_sym
         else
-          raise BelongsToError.new missing_in: class_name, association: model.to_s.underscore.pluralize
+          raise AssociationMissingError.new missing_in: class_name, association: model.to_s.underscore.pluralize
         end
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1

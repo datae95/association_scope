@@ -7,7 +7,6 @@ require "association_scope/scope/has_and_belongs_to_many_reflection"
 require "association_scope/scope/through_reflection"
 
 require "association_scope/error/association_missing_error"
-require "association_scope/error/belongs_to_error"
 
 module AssociationScope
 end

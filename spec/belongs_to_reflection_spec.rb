@@ -37,6 +37,6 @@ RSpec.describe "BelongsToReflection" do
   end
 
   context 'when has_many/has_one association is missing' do
-    it { expect{ Room.create! }.to raise_error AssociationScope::BelongsToError, "Association rooms missing in House!" }
+    it { expect{ Room.create! }.to raise_error AssociationScope::AssociationMissingError, "Association rooms missing in House!" }
   end
 end
