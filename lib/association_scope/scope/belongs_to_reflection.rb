@@ -10,10 +10,13 @@ module AssociationScope
         own_table_name = class_name.to_s.pluralize.underscore
 
         inverse_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
-        table_name = if inverse_reflection.source_reflection.class.to_s.split("::").last == "HasOneReflection"
-          model.to_s.underscore.to_sym
+        case inverse_reflection&.source_reflection&.class&.to_s&.split("::")&.last 
+        when "HasOneReflection"
+          table_name = model.to_s.underscore.to_sym
+        when "HasManyReflection"
+          table_name = model.to_s.underscore.pluralize.to_sym
         else
-          model.to_s.underscore.pluralize.to_sym
+          raise BelongsToError.new missing_in: class_name, association: model.to_s.underscore.pluralize
         end
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
