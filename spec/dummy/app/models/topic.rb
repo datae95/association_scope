@@ -2,7 +2,7 @@
 
 class Topic < ApplicationRecord
   belongs_to :user
-  belongs_to :owner, class_name: 'User', foreign_key: :user_id
+  belongs_to :owner, class_name: "User", foreign_key: :user_id
   belongs_to :creator, class_name: "User", optional: true, foreign_key: "creator_id"
   has_one :account, through: :user
 

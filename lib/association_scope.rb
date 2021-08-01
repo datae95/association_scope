@@ -20,10 +20,10 @@ module ActiveRecord
       # Don't be picky about singular or plural.
       raise ArgumentError, "Don't use :only and :except together!" unless only == reflections.keys || except == []
 
-      only = only.map{|o| o.to_s}
-      except = except.map{|e| e.to_s}
+      only = only.map { |o| o.to_s }
+      except = except.map { |e| e.to_s }
 
-      ::AssociationScope::Scope.inject_scopes(self, only-except)
+      ::AssociationScope::Scope.inject_scopes(self, only - except)
     end
   end
 end

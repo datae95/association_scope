@@ -46,7 +46,7 @@ class Topic < ApplicationRecord
 end
 ```
 Now you can use your associations as scopes and chain other scopes with them.
-When you have the classes `User` with many `Topic`s and every `Topic` has many `Post`s with many `Comment`s and all of them call `acts_as_association_scope`, you can write
+When you have the classes `User` with many `Topic`s and every `Topic` has many `Post`s with many `Comment`s and all of them use `acts_as_association_scope`, you can write
 ```ruby
 User.first.topics.posts.comments
 ```
