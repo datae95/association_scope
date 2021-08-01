@@ -1,3 +1,6 @@
+[![RSpec](https://github.com/datae95/association_scope/actions/workflows/rspec.yml/badge.svg)](https://github.com/datae95/association_scope/actions/workflows/rspec.yml)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
+
 # AssociationScope
 I always wondered, why there was no functionality to use associations not only on `ActiveRecord` objects but on scopes as well.
 When I have
