@@ -49,10 +49,6 @@ User.first.topics.posts.comments
 ```
 to retrieve all comments of all posts of all topics of your first user.
 
-## Development
-Clone the app and run `bundle`.
-To use `rails console` you have to navigate to the dummy application `cd spec/dummy`.
-
 ## Known Issues
 * This gem works with `reflections`.
 To make this work, the `acts_as_association_scope` call has to be below your association definitions.
@@ -71,4 +67,9 @@ end
 ```
 * Database views do not have a primary key.
 To use `distinct` on rows, all values of this row must be of types other than json.
-Workaround: Migrate JSON columns to JSONB
+Workaround: Migrate JSON columns to JSONB.
+* Error messages are not raised during application start, but on first instantiation, because of the order in which classes are loaded.
+
+## Development
+Clone the app and run `bundle`.
+To use `rails console` you have to navigate to the dummy application `cd spec/dummy`.
