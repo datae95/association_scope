@@ -9,8 +9,8 @@ module AssociationScope
       @association = association
     end
 
-    def self.inject_scopes(model)
-      model.reflections.each do |association, details|
+    def self.inject_scopes(model, reflections)
+      model.reflections.slice(*reflections).each do |association, details|
         scope_type = details.class.to_s.split("::").last
 
         "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply
