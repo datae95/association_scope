@@ -1,5 +1,5 @@
 RSpec.describe "HasAndBelongsToManyReflection" do
-  context 'with standard join table' do
+  context "with standard join table" do
     let!(:part1) { Part.create! }
     let!(:part2) { Part.create! }
     let!(:part3) { Part.create! }
@@ -19,11 +19,11 @@ RSpec.describe "HasAndBelongsToManyReflection" do
     end
   end
 
-  context 'when named association' do
+  context "when named association" do
     skip
   end
 
-  context 'with missing corresponding association' do
-    it { expect{ Resident.all }.to raise_error(AssociationScope::AssociationMissingError, "Association residents missing in House!" ) }
+  context "with missing corresponding association" do
+    it { expect { Resident.all }.to raise_error(AssociationScope::AssociationMissingError, "Association residents missing in House!") }
   end
 end

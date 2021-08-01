@@ -9,7 +9,7 @@ module AssociationScope
 
     def self.inject_scopes(model)
       model.reflections.each do |association, details|
-        scope_type = details.class.to_s.split('::').last
+        scope_type = details.class.to_s.split("::").last
 
         "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply
       end

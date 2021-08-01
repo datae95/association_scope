@@ -1,7 +1,7 @@
 module AssociationScope
   class AssociationMissingError < StandardError
     attr_accessor :missing_in,
-                  :association
+      :association
 
     def initialize(missing_in: "Model", association: nil)
       @missing_in = missing_in

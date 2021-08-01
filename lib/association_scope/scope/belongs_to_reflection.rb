@@ -10,7 +10,7 @@ module AssociationScope
         own_table_name = class_name.to_s.pluralize.underscore
 
         inverse_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
-        case inverse_reflection&.source_reflection&.class&.to_s&.split("::")&.last 
+        case inverse_reflection&.source_reflection&.class&.to_s&.split("::")&.last
         when "HasOneReflection"
           table_name = model.to_s.underscore.to_sym
         when "HasManyReflection"

@@ -12,11 +12,11 @@ RSpec.describe "HasOneReflection" do
     it { expect(User.accounts.to_a).to match_array Account.all.to_a }
   end
 
-  context 'with named association' do
+  context "with named association" do
     skip
   end
 
-  context 'with missing corresponding belongs to association' do
-    it { expect{ Holder.all }.to raise_error AssociationScope::AssociationMissingError, "Association holder missing in House!" }
+  context "with missing corresponding belongs to association" do
+    it { expect { Holder.all }.to raise_error AssociationScope::AssociationMissingError, "Association holder missing in House!" }
   end
 end

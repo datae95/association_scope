@@ -12,7 +12,7 @@ RSpec.describe "BelongsToReflection" do
   let!(:account2) { Account.create!(user: user2) }
   let!(:account4) { Account.create!(user: user4) }
 
-  context 'with has many association' do
+  context "with has many association" do
     context "with standard association" do
       it { expect(Topic.users).to match_array [user1, user2] }
     end
@@ -26,7 +26,7 @@ RSpec.describe "BelongsToReflection" do
     end
   end
 
-  context 'with has one association' do
+  context "with has one association" do
     context "with standard association" do
       it { expect(Account.users).to match_array [user1, user2, user4] }
     end
@@ -36,7 +36,7 @@ RSpec.describe "BelongsToReflection" do
     end
   end
 
-  context 'with missing corresponding association' do
-    it { expect{ Room.create! }.to raise_error AssociationScope::AssociationMissingError, "Association rooms missing in House!" }
+  context "with missing corresponding association" do
+    it { expect { Room.create! }.to raise_error AssociationScope::AssociationMissingError, "Association rooms missing in House!" }
   end
 end

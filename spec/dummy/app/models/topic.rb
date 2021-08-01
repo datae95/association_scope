@@ -4,7 +4,7 @@ class Topic < ApplicationRecord
   has_one :account, through: :user
 
   has_many :likes
-  has_many :likers, through: :likes, class_name: 'User', source: :user, inverse_of: :liked_topics
+  has_many :likers, through: :likes, class_name: "User", source: :user, inverse_of: :liked_topics
 
   acts_as_association_scope
 end
