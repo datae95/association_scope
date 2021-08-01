@@ -80,4 +80,7 @@ Workaround: Migrate JSON columns to JSONB.
 
 ## Development
 Clone this repository and run `bundle`.
-To use `rails console` you have to navigate to the dummy application `cd spec/dummy`.
+To use `rails console` you have to navigate to the dummy application 
+```bash
+$ cd spec/dummy
+```
