@@ -24,6 +24,10 @@ RSpec.describe "HasManyReflection" do
   end
 
   context "with missing corresponding belongs to association" do
-    it { expect { Owner.all }.to raise_error AssociationScope::AssociationMissingError, "Association owner missing in House!" }
+    it do
+      expect do
+        Owner.all
+      end.to raise_error AssociationScope::AssociationMissingError, "Association owner missing in House!"
+    end
   end
 end

@@ -19,6 +19,10 @@ RSpec.describe "HasOneReflection" do
   end
 
   context "with missing corresponding belongs to association" do
-    it { expect { Holder.all }.to raise_error AssociationScope::AssociationMissingError, "Association holder missing in House!" }
+    it do
+      expect do
+        Holder.all
+      end.to raise_error AssociationScope::AssociationMissingError, "Association holder missing in House!"
+    end
   end
 end
