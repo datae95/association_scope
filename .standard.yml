@@ -7,3 +7,5 @@ ignore:                 # default: []
   - "vendor/**/*"
   - "**/*":
     - Lint/UselessAssignment
+  - "spec/spec_helper.rb":
+    - Security/YAMLLoad
