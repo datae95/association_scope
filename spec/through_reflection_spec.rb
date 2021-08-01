@@ -26,4 +26,8 @@ RSpec.describe "ThroughReflection" do
     it { expect(User.all.liked_topics).to match_array [topic1, topic2] }
     it { expect(Topic.all.likers).to match_array [user3, user4] }
   end
+
+  context "with missing corresponding association" do
+    skip
+  end
 end
