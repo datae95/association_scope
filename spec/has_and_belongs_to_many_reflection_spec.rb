@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe "HasAndBelongsToManyReflection" do
   context "with standard join table" do
     let!(:part1) { Part.create! }

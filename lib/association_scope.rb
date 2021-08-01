@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "association_scope/version"
 require "association_scope/scope"
 require "association_scope/scope/has_many_reflection"
@@ -13,10 +15,10 @@ end
 
 module ActiveRecord
   class Base
-    def self.acts_as_association_scope only: reflections.keys, except: []
+    def self.acts_as_association_scope(only: reflections.keys, except: [])
       # Apply given filters.
       # Don't be picky about singular or plural. Pluralize everything.
-      raise ArgumentError.new("Don't use :only and :except together!") unless only == reflections.keys || except == []
+      raise ArgumentError, "Don't use :only and :except together!" unless only == reflections.keys || except == []
 
       ::AssociationScope::Scope.inject_scopes(self)
     end

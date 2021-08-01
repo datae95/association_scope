@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe "HasOneReflection" do
   let!(:user1) { User.create! }
   let!(:user2) { User.create! }

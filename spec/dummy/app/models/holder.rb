@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Holder < ApplicationRecord
   has_one :house
 

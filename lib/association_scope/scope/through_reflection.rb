@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AssociationScope
   class Scope
     class ThroughReflection < Scope
@@ -11,7 +13,7 @@ module AssociationScope
         first_join = inverse_reflection.options[:through] || inverse_reflection.options[:source]
 
         reflection_type = inverse_reflection.source_reflection.class.to_s.split("::").last
-        second_join = if reflection_type == "HasOneReflection" || reflection_type == "BelongsToReflection"
+        second_join = if %w[HasOneReflection BelongsToReflection].include?(reflection_type)
           model.to_s.underscore.to_sym
         else
           model.to_s.underscore.pluralize.to_sym

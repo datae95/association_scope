@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("dummy/config/environment", __dir__)
@@ -11,11 +13,11 @@ Bundler.setup
 require "association_scope"
 
 def load_schema
-  config = YAML.safe_load(IO.read(File.dirname(__FILE__) + "/dummy/config/database.yml"))
-  ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
+  config = YAML.load(IO.read("#{File.dirname(__FILE__)}/dummy/config/database.yml"))
+  ActiveRecord::Base.logger = Logger.new("#{File.dirname(__FILE__)}/debug.log")
 
   ActiveRecord::Base.establish_connection # (config[db_adapter])
-  load(File.dirname(__FILE__) + "/dummy/db/schema.rb")
+  load("#{File.dirname(__FILE__)}/dummy/db/schema.rb")
 end
 
 load_schema

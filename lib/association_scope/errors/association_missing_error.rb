@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AssociationScope
   class AssociationMissingError < StandardError
     attr_accessor :missing_in,

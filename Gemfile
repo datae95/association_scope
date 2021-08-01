@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -5,9 +7,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gemspec
 
 group :development, :test do
-  gem "sqlite3"
   gem "byebug"
   gem "rspec"
+  gem "sqlite3"
 end
 
 # To use a debugger
