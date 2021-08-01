@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 6.1.4"
   spec.add_dependency "standard", "~> 1.1.6"
+  spec.add_dependency "yard", "~> 0.9.26"
 end

@@ -19,3 +19,5 @@ spec/dummy/db/test.sqlite3
 spec/dummy/log/
 
 spec/dummy/db/development.sqlite3
+
+.yardoc/*

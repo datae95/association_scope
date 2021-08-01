@@ -4,6 +4,7 @@ PATH
     association_scope (0.1.0)
       rails (~> 6.1.4)
       standard (~> 1.1.6)
+      yard (~> 0.9.26)
 
 GEM
   remote: https://rubygems.org/
@@ -173,6 +174,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yard (0.9.26)
     zeitwerk (2.4.2)
 
 PLATFORMS
