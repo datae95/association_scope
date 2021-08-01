@@ -29,12 +29,17 @@ When you have this problem, the AssociationScope gem is for you!
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'association_scope', git: 'https://github.com/datae95/association_scope', branch: :main
+gem 'association_scope'
 ```
 
 And then execute:
 ```bash
 $ bundle
+```
+
+Or install it yourself as:
+```bash
+$ gem install association_scope
 ```
 
 ## Usage
@@ -46,11 +51,11 @@ class Topic < ApplicationRecord
 end
 ```
 Now you can use your associations as scopes and chain other scopes with them.
-When you have the classes `User` with many `Topic`s and every `Topic` has many `Post`s with many `Comment`s and all of them use `acts_as_association_scope`, you can write
+You can write
 ```ruby
-User.first.topics.posts.comments
+Topic.all.users
 ```
-to retrieve all comments of all posts of all topics of your first user.
+to retrieve the users of all of the topics of your application.
 
 ## Known Issues
 * This gem works with `reflections`.
@@ -74,5 +79,5 @@ Workaround: Migrate JSON columns to JSONB.
 * Error messages are not raised during application start, but on first instantiation, because of the order in which classes are loaded.
 
 ## Development
-Clone the app and run `bundle`.
+Clone this repository and run `bundle`.
 To use `rails console` you have to navigate to the dummy application `cd spec/dummy`.
