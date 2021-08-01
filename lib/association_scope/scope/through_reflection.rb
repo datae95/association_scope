@@ -3,7 +3,7 @@ module AssociationScope
     class ThroughReflection < Scope
       def apply
         details = model.reflections[@association]
-        association = @association.pluralize
+        association = @association
         class_name = details.options[:class_name]&.constantize || association.singularize.camelize.constantize
 
         inverse = details.options[:inverse_of]&.to_s || model.to_s.underscore

@@ -11,7 +11,7 @@ Bundler.setup
 require "association_scope"
 
 def load_schema
-  config = YAML.load(IO.read(File.dirname(__FILE__) + "/dummy/config/database.yml"))
+  config = YAML.safe_load(IO.read(File.dirname(__FILE__) + "/dummy/config/database.yml"))
   ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
 
   ActiveRecord::Base.establish_connection # (config[db_adapter])

@@ -1,0 +1,9 @@
+fix: true               # default: false
+parallel: true          # default: false
+format: progress        # default: Standard::Formatter
+
+ignore:                 # default: []
+  - "db/schema.rb"
+  - "vendor/**/*"
+  - "**/*":
+    - Lint/UselessAssignment
