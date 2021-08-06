@@ -2,9 +2,7 @@ PATH
   remote: .
   specs:
     association_scope (0.1.0)
-      rails (~> 6.1.4)
-      standard (~> 1.1.6)
-      yard (~> 0.9.26)
+      rails (>= 5)
 
 GEM
   remote: https://rubygems.org/
@@ -185,6 +183,8 @@ DEPENDENCIES
   byebug
   rspec
   sqlite3
+  standard (~> 1.1.6)
+  yard (~> 0.9.26)
 
 BUNDLED WITH
-   2.2.20
+   2.2.24
