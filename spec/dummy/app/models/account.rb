@@ -5,5 +5,5 @@ class Account < ApplicationRecord
   belongs_to :owner, class_name: "User", foreign_key: :user_id
   has_many :topics, through: :user
 
-  acts_as_association_scope only: [:user, :topics]
+  has_association_scope_on [:user, :topics]
 end

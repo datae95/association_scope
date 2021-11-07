@@ -3,5 +3,5 @@
 class Room < ApplicationRecord
   belongs_to :house
 
-  acts_as_association_scope
+  has_association_scope_on [:house]
 end

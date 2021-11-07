@@ -3,5 +3,5 @@
 class Part < ApplicationRecord
   has_and_belongs_to_many :assemblies
 
-  acts_as_association_scope
+  has_association_scope_on [:assemblies]
 end

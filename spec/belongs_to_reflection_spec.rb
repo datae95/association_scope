@@ -40,9 +40,7 @@ RSpec.describe "BelongsToReflection" do
 
   context "with missing corresponding association" do
     it do
-      expect do
-        Room.create!
-      end.to raise_error AssociationScope::AssociationMissingError, "Association rooms missing in House!"
+      expect { Room.create! }.to raise_error AssociationScope::AssociationMissingError, "Association rooms missing in House!"
     end
   end
 end

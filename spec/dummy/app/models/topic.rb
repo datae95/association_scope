@@ -9,5 +9,5 @@ class Topic < ApplicationRecord
   has_many :likes
   has_many :likers, through: :likes, class_name: "User", source: :user, inverse_of: :liked_topics
 
-  acts_as_association_scope except: [:owner]
+  has_association_scope_on [:user, :creator, :account, :likes, :likers]
 end

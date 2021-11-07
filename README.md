@@ -43,11 +43,11 @@ $ gem install association_scope
 ```
 
 ## Usage
-After installation you can use `acts_as_association_scope` in your models:
+After installation you can use `has_association_scope_on` in your models:
 ```ruby
 class Topic < ApplicationRecord
   belongs_to :user
-  acts_as_association_scope
+  has_association_scope_on [:user]
 end
 ```
 Now you can use your associations as scopes and chain other scopes with them.
@@ -59,18 +59,18 @@ to retrieve the users of all of the topics of your application.
 
 ## Known Issues
 * This gem works with `reflections`.
-To make this work, the `acts_as_association_scope` call has to be below your association definitions.
+To make this work, the `has_association_scope_on` call has to be below your association definitions.
 ```ruby
 # won't work
 class Topic
-  acts_as_association_scope
+  has_association_scope_on [:user]
   belongs_to :user
 end
 
 # works
 class Topic
   belongs_to :user
-  acts_as_association_scope
+  has_association_scope_on [:user]
 end
 ```
 * Database views do not have a primary key.
