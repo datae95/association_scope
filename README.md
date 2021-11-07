@@ -73,8 +73,8 @@ class Topic
   has_association_scope_on [:user]
 end
 ```
-* Database views do not have a primary key.
-To use `distinct` on rows, all values of this row must be of types other than json.
+* Does not work for tables without primary key.
+* To use `distinct` on rows, all values of this row must be of types other than JSON.
 Workaround: Migrate JSON columns to JSONB.
 * Error messages are not raised during application start, but on first instantiation, because of the order in which classes are loaded.
 
