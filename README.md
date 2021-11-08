@@ -19,7 +19,7 @@ class Topic < ApplicationRecord
   scope :of_users, -> (users) { joins(:user).where(users: users) }
 end
 ```
-over and over again across all of my models to write `Topic.of_users(current_user.friends)` when I wanted to write `current_user.friends.topics` instead.
+over and over again across all of my models to write something like `Topic.of_users(current_user.friends)` when I wanted to write `current_user.friends.topics` instead.
 And `belongs_to` is the easiest part.
 
 When you have this problem, the AssociationScope gem is for you!
