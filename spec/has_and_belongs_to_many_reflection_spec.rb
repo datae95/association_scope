@@ -29,7 +29,7 @@ RSpec.describe "HasAndBelongsToManyReflection" do
     it do
       expect do
         Resident.all
-      end.to raise_error(AssociationScope::AssociationMissingError, "Association residents missing in House!")
+      end.to raise_error(AssociationScope::AssociationMissingError, "Association :residents missing in House!")
     end
   end
 end

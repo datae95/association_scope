@@ -22,7 +22,7 @@ RSpec.describe "HasOneReflection" do
     it do
       expect do
         Holder.all
-      end.to raise_error AssociationScope::AssociationMissingError, "Association holder missing in House!"
+      end.to raise_error AssociationScope::AssociationMissingError, "Association :holder missing in House!"
     end
   end
 end

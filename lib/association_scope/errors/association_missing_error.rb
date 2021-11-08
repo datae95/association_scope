@@ -11,7 +11,7 @@ module AssociationScope
     end
 
     def message
-      "Association #{association} missing in #{missing_in}!"
+      "Association :#{association} missing in #{missing_in}!"
     end
   end
 end

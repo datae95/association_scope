@@ -37,7 +37,7 @@ RSpec.describe "ThroughReflection" do
     it do
       expect do
         Post.all
-      end.to raise_error AssociationScope::AssociationMissingError, "Association disliked_posts missing in User!"
+      end.to raise_error AssociationScope::AssociationMissingError, "Association :disliked_posts missing in User!"
     end
   end
 end
