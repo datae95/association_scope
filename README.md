@@ -57,6 +57,23 @@ Topic.all.users
 ```
 to retrieve the users of all of the topics of your application.
 
+### Migration from `.of_model`
+When you already use any form of `.of_model` scope, you can replace it with association scopes:
+
+```ruby
+# replace
+Topic.of_users(current_user.friends)
+# with
+current_user.friends.topics
+```
+When you chain scopes, you have to merge with the previous scope:
+```ruby
+# replace
+scope.of_users(users)
+# with
+users.topics.merge(scope)
+```
+
 ## Known Issues
 * This gem works with `reflections`.
 To make this work, the `has_association_scope_on` call has to be below your association definitions.
