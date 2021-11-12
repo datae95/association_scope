@@ -4,16 +4,16 @@ module AssociationScope
   class Scope
     class ThroughReflection < Scope
       def apply
-        details = model.reflections[@association]
         association = @association
-        class_name = details.options[:class_name]&.constantize || association.singularize.camelize.constantize
 
-        inverse = details.options[:inverse_of]&.to_s || model.to_s.underscore
+        reflection_details = model.reflections[association]
+        class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
+        inverse = reflection_details.options[:inverse_of]&.to_s || model.to_s.underscore
+
         inverse_reflection = class_name.reflections[inverse.singularize] || class_name.reflections[inverse.pluralize]
-
         first_join = inverse_reflection&.options&.fetch(:through, nil) || inverse_reflection&.options&.fetch(:source, nil)
-
         reflection_type = inverse_reflection&.source_reflection&.class&.to_s&.split("::")&.last
+
         second_join = if %w[HasOneReflection BelongsToReflection].include?(reflection_type)
           model.to_s.underscore.to_sym
         else

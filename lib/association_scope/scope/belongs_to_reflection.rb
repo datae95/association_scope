@@ -5,13 +5,16 @@ module AssociationScope
     class BelongsToReflection < Scope
       def apply
         association = @association
-        details = model.reflections[association]
-        class_name = details.options[:class_name]&.constantize || association.camelize.constantize
+
+        reflection_details = model.reflections[association]
+        class_name = reflection_details.options[:class_name]&.constantize || association.camelize.constantize
+        foreign_key = reflection_details.options[:foreign_key]
+
         association_name = association.to_s.underscore.to_sym
-        foreign_key = details.options[:foreign_key]
         own_table_name = class_name.to_s.pluralize.underscore
 
         inverse_reflection = class_name.reflections[model.to_s.underscore.singularize] || class_name.reflections[model.to_s.underscore.pluralize]
+
         case inverse_reflection&.source_reflection&.class&.to_s&.split("::")&.last
         when "HasOneReflection"
           table_name = model.to_s.underscore.to_sym
