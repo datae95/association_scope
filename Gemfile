@@ -10,6 +10,7 @@ group :development, :test do
   gem "byebug"
   gem "rspec"
   gem "sqlite3"
+  gem "awesome_print"
 end
 
 # To use a debugger
