@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_01_113027) do
+ActiveRecord::Schema.define(version: 2021_11_12_102922) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -85,6 +85,14 @@ ActiveRecord::Schema.define(version: 2021_08_01_113027) do
   create_table "parts", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "pictures", force: :cascade do |t|
+    t.bigint "imageable_id"
+    t.string "imageable_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id"
   end
 
   create_table "posts", force: :cascade do |t|
