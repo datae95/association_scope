@@ -26,6 +26,10 @@ RSpec.describe "BelongsToReflection" do
     context "when optional" do
       it { expect(Topic.where(id: topic3.id).creators).to eq [] }
     end
+
+    context "with polymorphic association" do
+      it { skip "raises error on application start" }
+    end
   end
 
   context "with has one association" do

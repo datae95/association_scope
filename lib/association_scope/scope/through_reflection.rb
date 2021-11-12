@@ -39,7 +39,7 @@ module AssociationScope
       end
 
       def compute_second_join class_name
-        if %w[HasOneReflection BelongsToReflection].include?(reflection_type class_name)
+        if %w[HasOneReflection BelongsToReflection].include?(reflection_type(class_name))
           model.to_s.underscore.to_sym
         else
           model.to_s.underscore.pluralize.to_sym

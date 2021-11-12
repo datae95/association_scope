@@ -10,5 +10,5 @@ class Topic < ApplicationRecord
   has_many :likers, through: :likes, class_name: "User", source: :user, inverse_of: :liked_topics
   has_many :pictures, as: :imageable
 
-  has_association_scope_on [:user, :creator, :account, :likes, :likers]
+  has_association_scope_on [:user, :creator, :account, :likes, :likers, :pictures]
 end

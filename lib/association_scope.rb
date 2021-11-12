@@ -9,6 +9,7 @@ require "association_scope/scope/has_and_belongs_to_many_reflection"
 require "association_scope/scope/through_reflection"
 
 require "association_scope/errors/association_missing_error"
+require "association_scope/errors/polymorphic_association_error"
 
 module AssociationScope
 end

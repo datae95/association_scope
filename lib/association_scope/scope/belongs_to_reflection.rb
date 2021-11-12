@@ -4,6 +4,10 @@ module AssociationScope
   class Scope
     class BelongsToReflection < Scope
       def apply
+        if reflection_details.options[:polymorphic]
+          raise PolymorphicAssociationError.new association: association, model: model
+        end
+
         association = @association
         class_name = reflection_details.options[:class_name]&.constantize || association.camelize.constantize
         foreign_key = reflection_details.options[:foreign_key]

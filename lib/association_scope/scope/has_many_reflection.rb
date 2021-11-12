@@ -7,9 +7,9 @@ module AssociationScope
         class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
 
         association = @association.pluralize
-        column_name = model.to_s.underscore
+        column_name = reflection_details.options[:as] || model.to_s.underscore
 
-        raise AssociationMissingError.new(missing_in: class_name, association: column_name) unless class_name.reflections.has_key?(column_name)
+        raise AssociationMissingError.new(missing_in: class_name, association: column_name) unless class_name.reflections.has_key?(column_name.to_s)
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           scope association, -> do
