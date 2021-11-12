@@ -21,6 +21,8 @@ jobs:
       # Checkout repo
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0.1'
 
       - name: Bundle install
         run: |
