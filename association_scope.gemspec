@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.description = "AssociationScope adds useful scopes targeting Associations in ActiveRecord."
   spec.summary = spec.description
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.8"
+  spec.required_ruby_version = ">= 3.2"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
@@ -19,10 +19,10 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", ">= 5"
+  spec.add_dependency "rails", ">= 7.1", "< 8.2"
 
-  spec.add_development_dependency "standard", "~> 1.1.6"
-  spec.add_development_dependency "yard", "~> 0.9.26"
-  spec.add_development_dependency "rspec", "~> 3.10"
+  spec.add_development_dependency "standard", "~> 1.56"
+  spec.add_development_dependency "yard", "~> 0.9.37"
+  spec.add_development_dependency "rspec", "~> 3.13"
   spec.add_development_dependency "awesome_print", "~> 1.9.2"
 end

@@ -19,21 +19,28 @@ jobs:
     strategy:
       matrix:
         ruby-version: [3.2, 3.3, 3.4]
+        rails-version: ["~> 7.1.0", "~> 7.2.0", "~> 8.0.0", "~> 8.1.0"]
     steps:
       # Checkout repo
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+        env:
+          RAILS_VERSION: ${{ matrix.rails-version }}
       - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+        run: bundle update rails
+        env:
+          RAILS_VERSION: ${{ matrix.rails-version }}
 
       - name: Setup Database
         working-directory: spec/dummy
         run: bin/rails db:prepare RAILS_ENV=test
+        env:
+          RAILS_VERSION: ${{ matrix.rails-version }}
 
       - name: Run RSpec
-        run: |
-          rspec
+        run: bundle exec rake
+        env:
+          RAILS_VERSION: ${{ matrix.rails-version }}

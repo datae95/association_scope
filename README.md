@@ -97,6 +97,10 @@ Workaround: Migrate JSON columns to JSONB.
 
 ## Development
 Clone this repository and run `bundle`.
+
+The development Ruby version is 3.4.7. CI tests Ruby 3.2, 3.3, and 3.4 against
+Rails 7.1, 7.2, 8.0, and 8.1.
+
 To use `rails console` you have to navigate to the dummy application 
 ```bash
 $ cd spec/dummy
