@@ -57,6 +57,15 @@ Topic.all.users
 ```
 to retrieve the users of all of the topics of your application.
 
+### Supported association types
+
+`has_association_scope_on` supports `belongs_to`, `has_one`, `has_many`,
+`has_many :through`, `has_one :through`, and `has_and_belongs_to_many`
+associations. Polymorphic `has_many` associations (for example,
+`has_many :pictures, as: :imageable`) are supported. A polymorphic
+`belongs_to` association is not supported because its target model cannot be
+determined when the scope is defined.
+
 ### Migration from `.of_model`
 When you already use any form of `.of_model` scope, you can replace it with association scopes:
 
@@ -74,8 +83,8 @@ scope.of_users(users)
 users.topics.merge(scope)
 ```
 
-## Known Issues
-* This gem works with `reflections`.
+## Limitations
+* This gem works with Active Record `reflections`.
 To make this work, the `has_association_scope_on` call has to be below your association definitions.
 ```ruby
 # won't work
@@ -95,11 +104,24 @@ end
 Workaround: Migrate JSON columns to JSONB.
 * Error messages are not raised during application start, but on first instantiation, because of the order in which classes are loaded.
 
+## Compatibility
+
+The gem supports Ruby 3.2 through 3.4 and Rails 7 or newer. The CI matrix
+tests Rails 7.1, 7.2, 8.0, and 8.1 on each supported Ruby version.
+
+### Upgrade notes
+
+The next release drops support for Ruby versions before 3.2 and Rails versions
+before 7. Upgrade Ruby and Rails first, then run `bundle update
+association_scope`. If you previously relied on a polymorphic `belongs_to`
+association scope, replace it with an explicit application scope; that
+association type is intentionally rejected.
+
 ## Development
 Clone this repository and run `bundle`.
 
-The development Ruby version is 3.4.7. CI tests Ruby 3.2, 3.3, and 3.4 against
-Rails 7.1, 7.2, 8.0, and 8.1.
+The development Ruby version is 3.4.7. See [Compatibility](#compatibility) for
+the supported runtime versions.
 
 To use `rails console` you have to navigate to the dummy application 
 ```bash

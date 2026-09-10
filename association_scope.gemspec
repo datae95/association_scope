@@ -15,11 +15,11 @@ Gem::Specification.new do |spec|
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "#{spec.homepage}/changelog"
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
-  spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  spec.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", ">= 7.1", "< 8.2"
+  spec.add_dependency "rails", ">= 7"
 
   spec.add_development_dependency "standard", "~> 1.56"
   spec.add_development_dependency "yard", "~> 0.9.37"
