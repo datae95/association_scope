@@ -15,7 +15,9 @@ RSpec.describe "HasOneReflection" do
   end
 
   context "with named association" do
-    skip
+    it { expect(User.where(id: user1.id).profiles).to eq [account1] }
+    it { expect(User.where(id: user3.id).profiles).to eq [] }
+    it { expect(User.profiles.to_a).to match_array Account.all.to_a }
   end
 
   context "with missing corresponding belongs to association" do
