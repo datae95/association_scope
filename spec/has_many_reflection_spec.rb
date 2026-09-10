@@ -21,6 +21,14 @@ RSpec.describe "HasManyReflection" do
     it { expect(User.topics.to_a).to match_array Topic.all.to_a }
   end
 
+  context "with a scoped association" do
+    it "keeps the association scope" do
+      expect(User.reflections["scoped_topics"].scope).to be_present
+      expect(User.where(id: user1.id).scoped_topics).to eq [topic1]
+      expect(User.where(id: user2.id).scoped_topics).to eq []
+    end
+  end
+
   context "with named association" do
     it { expect(User.where(id: user1.id).posts).to eq [topic1] }
     it { expect(User.where(id: user2.id).posts).to match_array [topic2, topic3] }

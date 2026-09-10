@@ -22,5 +22,4 @@ spec/dummy/db/development.sqlite3
 
 .yardoc/*
 
-Gemfile.lock
 *.gem

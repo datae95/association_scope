@@ -15,15 +15,27 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0.2'
-
-      - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+          ruby-version: '3.4'
+          bundler-cache: true
 
       - name: Run Standard
         run: bundle exec standardrb
+
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+      - name: Build gem
+        run: gem build association_scope.gemspec
+      - name: Inspect packaged gem
+        run: |
+          gem specification association_scope-*.gem name
+          gem specification association_scope-*.gem version
+          gem specification association_scope-*.gem files
