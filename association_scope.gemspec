@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "yard", "~> 0.9.37"
   spec.add_development_dependency "rspec", "~> 3.13"
   spec.add_development_dependency "awesome_print", "~> 1.9.2"
+  spec.add_development_dependency "bundler-audit", "~> 0.9"
 end
