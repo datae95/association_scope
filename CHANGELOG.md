@@ -6,13 +6,14 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
-- Support is now limited to Ruby 3.2 through 3.4 and Rails 7 or newer.
+- Support is now limited to Ruby 3.2 through 4.0 and Rails 7.1 or newer.
 - The development and test dependencies are pinned and the CI suite explicitly
-  tests the supported Ruby and Rails versions.
+  tests the supported Ruby, Rails, and database adapter versions (SQLite and
+  PostgreSQL).
 
 ### Upgrade notes
 
-- Upgrade to Ruby 3.2 or newer and Rails 7 or newer before updating the gem.
+- Upgrade to Ruby 3.2 or newer and Rails 7.1 or newer before updating the gem.
 - Replace polymorphic `belongs_to` association scopes with explicit application
   scopes; they are not supported.
 

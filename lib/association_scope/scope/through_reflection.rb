@@ -5,8 +5,16 @@ module AssociationScope
     class ThroughReflection < Scope
       def apply
         association = @association
-        class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
+        class_name = begin
+          reflection_details.klass
+        rescue ActiveRecord::AmbiguousSourceReflectionForThroughAssociation
+          # Rails cannot resolve an omitted source when multiple source
+          # reflections exist; retain the historical association-name
+          # fallback for this inherently ambiguous case.
+          association.singularize.camelize.constantize
+        end
         source = reflection_details.options[:source] && reflection_details.source_reflection
+        validate_scope!(reflection_details)
         source ||= reflection_details.through_reflection.klass.reflections.values.find do |candidate|
           candidate.name.to_s == association.to_s && candidate.klass == class_name && candidate.through_reflection?
         end
@@ -19,11 +27,20 @@ module AssociationScope
         end
 
         raise AssociationMissingError.new missing_in: class_name, association: inverse unless inverse_reflection(class_name)
+        source_table = model.table_name
+        source_primary_key = model.primary_key
+        through_reflection = reflection_details.through_reflection
+        through_table = through_reflection.klass.table_name
+        through_key = through_reflection.belongs_to? ? through_reflection.klass.primary_key : through_reflection.foreign_key
+        source_key = through_reflection.belongs_to? ? through_reflection.foreign_key : source_primary_key
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           scope association.pluralize, -> do
+            source_relation = self
             class_name
               .joins(first_join => second_join)
+              .where(#{through_table.inspect} => { #{through_key.inspect} =>
+                source_relation.reselect(#{"#{source_table}.#{source_key}".inspect}) })
               .distinct
           end
         RUBY

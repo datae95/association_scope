@@ -27,8 +27,10 @@ RSpec.describe "BelongsToReflection" do
       it { expect(Topic.where(id: topic3.id).creators).to eq [] }
     end
 
-    context "with polymorphic association" do
-      it { skip "raises error on application start" }
+    it "with polymorphic association" do
+      expect { Picture.has_association_scope_on [:imageable] }
+        .to raise_error AssociationScope::PolymorphicAssociationError,
+          "Association :imageable is polymorph in Picture!"
     end
   end
 
