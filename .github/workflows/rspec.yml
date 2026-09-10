@@ -31,11 +31,8 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - name: Setup Database
-        run: |
-          rails db:drop
-          rails db:create
-          rails db:load_schema
-          rails db:prepare
+        working-directory: spec/dummy
+        run: bin/rails db:prepare RAILS_ENV=test
 
       - name: Run RSpec
         run: |
