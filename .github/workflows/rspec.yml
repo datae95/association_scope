@@ -26,11 +26,12 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
         env:
           RAILS_VERSION: ${{ matrix.rails-version }}
       - name: Bundle install
-        run: bundle update rails
+        run: |
+          bundle update rails
+          bundle install --jobs 4 --retry 3
         env:
           RAILS_VERSION: ${{ matrix.rails-version }}
 
