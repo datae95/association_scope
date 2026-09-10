@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Chain Active Record associations from relation scopes."
   spec.description = "AssociationScope lets Active Record relations expose associations as chainable scopes."
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.2", "< 3.5"
+  spec.required_ruby_version = ">= 3.2", "< 4.1"
 
   spec.metadata["homepage_uri"] = "#{spec.homepage}#readme"
   spec.metadata["source_code_uri"] = spec.homepage

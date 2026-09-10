@@ -106,7 +106,7 @@ Workaround: Migrate JSON columns to JSONB.
 
 ## Compatibility
 
-The gem supports Ruby 3.2 through 3.4 and Rails 7 or newer. The CI matrix
+The gem supports Ruby 3.2 through 4.0 and Rails 7 or newer. The CI matrix
 tests Rails 7.1, 7.2, 8.0, and 8.1 on each supported Ruby version.
 
 ### Upgrade notes
