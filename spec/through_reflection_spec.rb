@@ -26,6 +26,18 @@ RSpec.describe "ThroughReflection" do
     it { expect(Topic.all.accounts).to match_array Topic.users.accounts }
   end
 
+  context "with Account<-(1:1)->User<-(1:n)->Like<-(n:1)->Topic" do
+    let!(:account3) { Account.create!(user: user3) }
+    let!(:account4) { Account.create!(user: user4) }
+
+    before do
+      user3.liked_topics << topic1
+      user4.liked_topics << topic2
+    end
+
+    it { expect(Account.all.liked_topics).to match_array [topic1, topic2] }
+  end
+
   context "with User<-(m:1)->Like<-(1:n)->Topic" do
     before do
       topic1.likers << user3
