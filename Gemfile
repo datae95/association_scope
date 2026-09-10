@@ -11,6 +11,7 @@ group :development, :test do
   gem "rspec"
   gem "sqlite3"
   gem "awesome_print"
+  gem "sprockets-rails", "~> 3.4"
 end
 
 # To use a debugger
