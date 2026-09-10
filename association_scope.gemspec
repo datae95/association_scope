@@ -8,12 +8,12 @@ Gem::Specification.new do |spec|
   spec.authors = ["datae"]
   spec.email = ["accounts@datae.de"]
   spec.homepage = "https://github.com/datae95/association_scope"
-  spec.description = "AssociationScope adds useful scopes targeting Associations in ActiveRecord."
-  spec.summary = spec.description
+  spec.summary = "Chain Active Record associations from relation scopes."
+  spec.description = "AssociationScope lets Active Record relations expose associations as chainable scopes."
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.2", "< 3.5"
 
-  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["homepage_uri"] = "#{spec.homepage}#readme"
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
