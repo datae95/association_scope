@@ -6,8 +6,17 @@ module AssociationScope
       def apply
         association = @association
         class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
-        first_join = inverse_reflection(class_name)&.options&.fetch(:through, nil) || inverse_reflection(class_name)&.options&.fetch(:source, nil)
-        second_join = compute_second_join class_name
+        source = reflection_details.options[:source] && reflection_details.source_reflection
+        source ||= reflection_details.through_reflection.klass.reflections.values.find do |candidate|
+          candidate.name.to_s == association.to_s && candidate.klass == class_name && candidate.through_reflection?
+        end
+        if source&.through_reflection?
+          first_join = source.options[:through]
+          second_join = reflection_details.options[:through].to_sym
+        else
+          first_join = inverse_reflection(class_name)&.options&.fetch(:through, nil) || inverse_reflection(class_name)&.options&.fetch(:source, nil)
+          second_join = compute_second_join class_name
+        end
 
         raise AssociationMissingError.new missing_in: class_name, association: inverse unless inverse_reflection(class_name)
 

@@ -12,7 +12,7 @@ module AssociationScope
 
         raise AssociationMissingError.new(missing_in: class_name, association: column_name) unless inverse_association
 
-        association_scope = reflection_details.options[:scope]
+        association_scope = reflection_details.scope
         polymorphic = reflection_details.options[:as]
         foreign_key = inverse_association.foreign_key
         target_table = class_name.table_name
