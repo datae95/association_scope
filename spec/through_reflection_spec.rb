@@ -24,6 +24,9 @@ RSpec.describe "ThroughReflection" do
 
     it { expect(Account.all.topics).to match_array Account.users.topics }
     it { expect(Topic.all.accounts).to match_array Topic.users.accounts }
+    it { expect(Topic.where(id: topic1.id).accounts).to match_array [account1] }
+    it { expect(Topic.none.accounts).to be_empty }
+    it { expect(Topic.where(id: topic1.id).where(id: topic1.id).accounts).to match_array [account1] }
   end
 
   context "with Account<-(1:1)->User<-(1:n)->Like<-(n:1)->Topic" do

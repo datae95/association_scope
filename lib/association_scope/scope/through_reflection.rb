@@ -19,11 +19,20 @@ module AssociationScope
         end
 
         raise AssociationMissingError.new missing_in: class_name, association: inverse unless inverse_reflection(class_name)
+        source_table = model.table_name
+        source_primary_key = model.primary_key
+        through_reflection = reflection_details.through_reflection
+        through_table = through_reflection.klass.table_name
+        through_key = through_reflection.belongs_to? ? through_reflection.klass.primary_key : through_reflection.foreign_key
+        source_key = through_reflection.belongs_to? ? through_reflection.foreign_key : source_primary_key
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           scope association.pluralize, -> do
+            source_relation = self
             class_name
               .joins(first_join => second_join)
+              .where(#{through_table.inspect} => { #{through_key.inspect} =>
+                source_relation.reselect(#{"#{source_table}.#{source_key}".inspect}) })
               .distinct
           end
         RUBY
