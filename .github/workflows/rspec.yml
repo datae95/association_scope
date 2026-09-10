@@ -20,6 +20,20 @@ jobs:
       matrix:
         ruby-version: [3.2, 3.3, 3.4, 4.0]
         rails-version: ["~> 7.1.0", "~> 7.2.0", "~> 8.0.0", "~> 8.1.0"]
+        database: [sqlite3, postgresql]
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: association_scope_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       # Checkout repo
       - uses: actions/checkout@v5
@@ -40,8 +54,10 @@ jobs:
         run: bin/rails db:prepare RAILS_ENV=test
         env:
           RAILS_VERSION: ${{ matrix.rails-version }}
+          DATABASE_ADAPTER: ${{ matrix.database }}
 
       - name: Run RSpec
         run: bundle exec rake
         env:
           RAILS_VERSION: ${{ matrix.rails-version }}
+          DATABASE_ADAPTER: ${{ matrix.database }}

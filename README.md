@@ -106,13 +106,18 @@ Workaround: Migrate JSON columns to JSONB.
 
 ## Compatibility
 
-The gem supports Ruby 3.2 through 4.0 and Rails 7 or newer. The CI matrix
-tests Rails 7.1, 7.2, 8.0, and 8.1 on each supported Ruby version.
+The gem supports Ruby 3.2 through 4.0 and Rails 7.1 or newer. The CI matrix
+tests Rails 7.1, 7.2, 8.0, and 8.1 on each supported Ruby version, using both
+SQLite and PostgreSQL.
+
+The test suite supports SQLite and PostgreSQL. PostgreSQL is recommended when
+using `distinct` with JSON-valued columns; SQLite does not provide the same
+JSON type behavior.
 
 ### Upgrade notes
 
 The next release drops support for Ruby versions before 3.2 and Rails versions
-before 7. Upgrade Ruby and Rails first, then run `bundle update
+before 7.1. Upgrade Ruby and Rails first, then run `bundle update
 association_scope`. If you previously relied on a polymorphic `belongs_to`
 association scope, replace it with an explicit application scope; that
 association type is intentionally rejected.

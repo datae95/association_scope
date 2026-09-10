@@ -12,6 +12,7 @@ gem "rails", ENV.fetch("RAILS_VERSION", "~> 8.1.0")
 group :development, :test do
   gem "byebug"
   gem "sqlite3", "~> 2.9"
+  gem "pg", "~> 1.5"
   gem "awesome_print"
   gem "sprockets-rails", "~> 3.5"
 end
