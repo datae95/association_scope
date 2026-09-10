@@ -17,6 +17,22 @@ module AssociationScope
     end
 
     def self.inject_scopes(model, reflections)
+      unknown_association = reflections.find { |association| !model.reflections.key?(association) }
+      if unknown_association
+        raise AssociationMissingError.new(missing_in: model, association: unknown_association)
+      end
+
+      generated_scopes = reflections.map(&:pluralize)
+      if generated_scopes.uniq.length != generated_scopes.length
+        raise ArgumentError, "association scope names must be unique after pluralization"
+      end
+
+      generated_scopes.each do |scope_name|
+        if model.respond_to?(scope_name)
+          raise ArgumentError, "association scope :#{scope_name} is already defined on #{model}"
+        end
+      end
+
       model.reflections.slice(*reflections).each do |association, details|
         scope_type = details.class.to_s.split("::").last
 

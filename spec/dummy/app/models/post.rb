@@ -8,5 +8,5 @@ class Post < ApplicationRecord
     foreign_key: :post_id,
     inverse_of: :disliked_posts
 
-  has_association_scope_on [:dislkes, :dislikers]
+  has_association_scope_on [:dislikes, :dislikers]
 end
