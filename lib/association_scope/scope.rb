@@ -9,13 +9,6 @@ module AssociationScope
       @association = association
     end
 
-    private
-
-    def validate_scope!(reflection)
-      scope = reflection.scope
-      raise ArgumentError, "owner-dependent association scopes are not supported" if scope && scope.arity != 0
-    end
-
     def self.inject_scopes(model, reflections)
       unknown_association = reflections.find { |association| !model.reflections.key?(association) }
       if unknown_association
@@ -38,6 +31,13 @@ module AssociationScope
 
         "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply
       end
+    end
+
+    private
+
+    def validate_scope!(reflection)
+      scope = reflection.scope
+      raise ArgumentError, "owner-dependent association scopes are not supported" if scope && scope.arity != 0
     end
   end
 end
