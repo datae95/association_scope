@@ -38,7 +38,7 @@ RSpec.describe "BelongsToReflection" do
     end
 
     context "with named association" do
-      skip
+      it { expect(Account.owners).to match_array [user1, user2, user4] }
     end
   end
 
