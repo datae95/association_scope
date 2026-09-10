@@ -8,17 +8,17 @@ module AssociationScope
         class_name = reflection_details.klass
         inverse_association = inverse_association(class_name)
         validate_scope!(reflection_details)
+        association_scope = reflection_details.scope
+        owner_table = model.table_name
 
         raise AssociationMissingError.new(missing_in: class_name, association: model.table_name) unless inverse_association
 
-        model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-          scope association, -> do
-            class_name
-              .joins(inverse_association)
-              .where(model.table_name => self)
-              .distinct
-          end
-        RUBY
+        model.scope association, -> do
+          Scope.target_relation(class_name, association_scope)
+            .joins(inverse_association)
+            .where(owner_table => self)
+            .distinct
+        end
       end
 
       private

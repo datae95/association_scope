@@ -43,6 +43,21 @@ RSpec.describe "HasManyReflection" do
     it { expect(User.pictures).to match_array [picture4] }
   end
 
+  context "with a custom association primary key" do
+    before do
+      user1.update!(code: "alpha")
+      user2.update!(code: "beta")
+      topic1.update!(user_code: "alpha")
+      topic2.update!(user_code: "beta")
+      topic3.update!(user_code: "beta")
+    end
+
+    it "honors association primary keys for has_many" do
+      expect(User.where(id: user2.id).coded_topics).to match_array user2.coded_topics
+      expect(User.where(id: user2.id).select(:id).coded_topics).to match_array [topic2, topic3]
+    end
+  end
+
   context "with missing corresponding belongs to association" do
     it do
       expect do

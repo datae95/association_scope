@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_102922) do
+ActiveRecord::Schema.define(version: 2026_09_17_000100) do
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -48,6 +48,13 @@ ActiveRecord::Schema.define(version: 2021_11_12_102922) do
     t.index ["user_id"], name: "index_dislikes_on_user_id"
   end
 
+  create_table "friendships", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+  end
+
   create_table "holders", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -82,6 +89,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_102922) do
   end
 
   create_table "parts", force: :cascade do |t|
+    t.boolean "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -112,6 +120,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_102922) do
   end
 
   create_table "topics", force: :cascade do |t|
+    t.boolean "published"
+    t.string "user_code"
     t.integer "user_id", null: false
     t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
@@ -120,6 +130,9 @@ ActiveRecord::Schema.define(version: 2021_11_12_102922) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "active"
+    t.string "code"
+    t.bigint "manager_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -129,6 +142,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_102922) do
   add_foreign_key "broken_records", "users"
   add_foreign_key "dislikes", "posts"
   add_foreign_key "dislikes", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "houses", "holders"
   add_foreign_key "houses", "owners"
   add_foreign_key "likes", "topics"

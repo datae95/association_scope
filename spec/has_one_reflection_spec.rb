@@ -49,6 +49,53 @@ RSpec.describe "HasOneReflection" do
     end
   end
 
+  context "with a person's friends" do
+    it "returns only the latest topic of each of two friends with two topics each" do
+      person = User.create!
+      first_friend = User.create!
+      second_friend = User.create!
+      person.friends << [first_friend, second_friend]
+
+      first_friend.topics.create!
+      second_friend.topics.create!
+      first_latest_topic = first_friend.topics.create!
+      second_latest_topic = second_friend.topics.create!
+
+      expect(person.friends.latest_topics).to contain_exactly(first_latest_topic, second_latest_topic)
+    end
+  end
+
+  context "with a custom association primary key" do
+    before do
+      user1.update!(code: "alpha")
+      user2.update!(code: "beta")
+      user3.update!(code: "gamma")
+      topic1.update!(user_code: "alpha")
+      topic2.update!(user_code: "beta")
+      topic3.update!(user_code: "beta")
+      topic4.update!(user_code: "gamma")
+    end
+
+    it "honors association primary keys for has_one" do
+      expect(User.first_coded_topics).to match_array [user1.first_coded_topic, user2.first_coded_topic, user3.first_coded_topic]
+      expect(User.first_coded_topics).to match_array [topic1, topic2, topic4]
+    end
+  end
+
+  context "with an association offset" do
+    it "applies has_one offsets independently for each owner" do
+      later_topic = Topic.create!(user: user1)
+
+      expect(User.second_topics).to match_array [user1.second_topic, user2.second_topic]
+      expect(User.second_topics).to match_array [later_topic, topic3]
+    end
+
+    it "omits owners without enough records for the has_one offset" do
+      expect(User.where(id: user3.id).second_topics).to be_empty
+      expect(User.second_topics).to eq [topic3]
+    end
+  end
+
   context "with missing corresponding belongs to association" do
     it do
       expect do

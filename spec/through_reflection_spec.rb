@@ -51,6 +51,38 @@ RSpec.describe "ThroughReflection" do
     it { expect(Topic.all.likers).to match_array [user3, user4] }
   end
 
+  context "with a scoped association" do
+    it "preserves through association predicates" do
+      topic1.update!(published: false)
+      topic2.update!(published: true)
+      user3.liked_topics << [topic1, topic2]
+
+      expect(User.where(id: user3.id).published_liked_topics).to eq user3.published_liked_topics
+      expect(User.published_liked_topics).to eq [topic2]
+    end
+  end
+
+  context "with a has_one through association" do
+    let!(:account1) { Account.create!(user: user1) }
+    let!(:account2) { Account.create!(user: user2) }
+
+    it "returns one has_one through record per owner and remains chainable" do
+      expect(Account.first_topics).to match_array [account1.first_topic, account2.first_topic]
+      expect(Account.first_topics.count).to eq 2
+      expect(Account.first_topics.users).to match_array [user1, user2]
+      expect(Account.none.first_topics).to be_empty
+    end
+
+    it "honors the source association order for has_one through" do
+      expect(Account.latest_topics).to match_array [account1.latest_topic, account2.latest_topic]
+      expect(Account.latest_topics).to match_array [topic1, topic3]
+    end
+
+    it "honors source offsets for has_one through" do
+      expect(Account.second_topics).to eq [topic3]
+    end
+  end
+
   context "with missing corresponding association" do
     it do
       expect do

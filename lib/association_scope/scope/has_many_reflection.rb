@@ -15,17 +15,18 @@ module AssociationScope
         association_scope = reflection_details.scope
         validate_scope!(reflection_details)
         polymorphic = reflection_details.options[:as]
-        foreign_key = inverse_association.foreign_key
-        target_table = class_name.table_name
+        foreign_key = reflection_details.foreign_key
+        owner_key = model.arel_table[reflection_details.active_record_primary_key]
+        target_key = class_name.arel_table[foreign_key]
+        foreign_type = reflection_details.type if polymorphic
+        owner_type = model.polymorphic_name if polymorphic
+        singular = reflection_details.macro == :has_one
 
         model.scope association, -> do
-          relation = class_name
-          relation = relation.instance_eval(&association_scope) if association_scope
-          if polymorphic
-            relation.where(column_name => self).distinct
-          else
-            relation.where(target_table => {foreign_key => self}).distinct
-          end
+          relation = Scope.target_relation(class_name, association_scope)
+            .where(target_key.in(reselect(owner_key).arel))
+          relation = relation.where(foreign_type => owner_type) if polymorphic
+          singular ? Scope.one_per_owner(relation, target_key) : relation.distinct
         end
       end
 

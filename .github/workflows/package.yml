@@ -1,0 +1,66 @@
+name: Package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Build gem
+        run: gem build association_scope.gemspec
+      - name: Inspect packaged gem
+        run: |
+          gem specification association_scope-*.gem name
+          gem specification association_scope-*.gem version
+          gem specification association_scope-*.gem files
+      - name: Install and load packaged gem in a clean application
+        run: |
+          install_root="$RUNNER_TEMP/association_scope-gems"
+          app_root="$RUNNER_TEMP/association_scope-smoke"
+          dependency_path="$(bundle exec ruby -e 'puts Gem.path.join(File::PATH_SEPARATOR)')"
+          gem install --local --ignore-dependencies --no-document --install-dir "$install_root" association_scope-*.gem
+          mkdir -p "$app_root"
+          cat > "$app_root/smoke.rb" <<'RUBY'
+          require "active_record"
+          require "association_scope"
+
+          ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+          ActiveRecord::Schema.define do
+            create_table(:users) { |t| t.string :name }
+            create_table(:topics) { |t| t.string :title; t.references :user }
+          end
+
+          class SmokeUser < ActiveRecord::Base
+            self.table_name = "users"
+            has_many :smoke_topics, class_name: "SmokeTopic", foreign_key: :user_id, inverse_of: :smoke_user
+          end
+          class SmokeTopic < ActiveRecord::Base
+            self.table_name = "topics"
+            belongs_to :smoke_user, class_name: "SmokeUser", foreign_key: :user_id, inverse_of: :smoke_topics
+          end
+
+          SmokeUser.has_association_scope_on [:smoke_topics]
+          SmokeTopic.has_association_scope_on [:smoke_user]
+          owner = SmokeUser.create!(name: "owner")
+          other = SmokeUser.create!(name: "other")
+          topic = SmokeTopic.create!(smoke_user: owner, title: "included")
+          SmokeTopic.create!(smoke_user: other, title: "excluded")
+
+          topics = SmokeUser.where(id: owner.id).smoke_topics
+          raise "packaged gem scope failed" unless topics.to_a == [topic]
+          raise "packaged gem chaining failed" unless topics.smoke_users.to_a == [owner]
+          RUBY
+          GEM_HOME="$install_root" GEM_PATH="$install_root:$dependency_path" ruby "$app_root/smoke.rb"
