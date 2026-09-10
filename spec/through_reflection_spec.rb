@@ -10,8 +10,11 @@ RSpec.describe "ThroughReflection" do
   let!(:topic2) { Topic.create!(user: user2, creator: user3) }
   let!(:topic3) { Topic.create!(user: user2, creator: nil) }
 
-  context "...<-(1:1)->...<-(1:1)->..." do
-    skip
+  context "with Account<-(1:1)->User<-(1:1)->Topic" do
+    let!(:account1) { Account.create!(user: user1) }
+    let!(:account2) { Account.create!(user: user2) }
+
+    it { expect(Topic.all.accounts).to match_array [account1, account2] }
   end
 
   context "with Account<-(1:1)->User<-(1:n)->Topic" do

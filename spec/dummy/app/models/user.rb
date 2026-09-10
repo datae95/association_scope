@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :topics
   has_many :posts, class_name: "Topic"
   has_one :account
+  has_one :topic
   has_one :owner_account, class_name: "Account", foreign_key: :user_id, inverse_of: :owner
   has_one :profile, class_name: "Account", foreign_key: :user_id, inverse_of: :profile_owner
 
