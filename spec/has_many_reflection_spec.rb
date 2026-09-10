@@ -5,7 +5,7 @@ RSpec.describe "HasManyReflection" do
   let!(:user2) { User.create! }
   let!(:user3) { User.create! }
 
-  let!(:topic1) { Topic.create!(user: user1) }
+  let!(:topic1) { Topic.create!(id: 1, user: user1) }
   let!(:topic2) { Topic.create!(user: user2) }
   let!(:topic3) { Topic.create!(user: user2) }
 
