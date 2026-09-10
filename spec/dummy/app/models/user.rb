@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :posts, class_name: "Topic"
   has_one :account
   has_one :topic
+  has_one :latest_topic, -> { order(id: :desc).limit(1) }, class_name: "Topic"
+  has_one :selected_topic, -> { select(:id, :user_id).order(id: :desc) }, class_name: "Topic"
   has_one :owner_account, class_name: "Account", foreign_key: :user_id, inverse_of: :owner
   has_one :profile, class_name: "Account", foreign_key: :user_id, inverse_of: :profile_owner
 
@@ -13,5 +15,5 @@ class User < ApplicationRecord
   has_many :liked_topics, through: :likes, class_name: "Topic", source: :topic, inverse_of: :likers
   has_many :pictures, as: :imageable
 
-  has_association_scope_on [:topics, :scoped_topics, :posts, :account, :profile, :likes, :liked_topics, :pictures]
+  has_association_scope_on [:topics, :scoped_topics, :posts, :account, :profile, :latest_topic, :selected_topic, :likes, :liked_topics, :pictures]
 end
