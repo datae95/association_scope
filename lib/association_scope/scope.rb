@@ -9,6 +9,13 @@ module AssociationScope
       @association = association
     end
 
+    private
+
+    def validate_scope!(reflection)
+      scope = reflection.scope
+      raise ArgumentError, "owner-dependent association scopes are not supported" if scope && scope.arity != 0
+    end
+
     def self.inject_scopes(model, reflections)
       model.reflections.slice(*reflections).each do |association, details|
         scope_type = details.class.to_s.split("::").last

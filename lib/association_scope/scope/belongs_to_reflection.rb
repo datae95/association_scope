@@ -9,7 +9,7 @@ module AssociationScope
         end
 
         association = @association
-        class_name = reflection_details.options[:class_name]&.constantize || association.camelize.constantize
+        class_name = reflection_details.klass
         inverse_association = inverse_reflection(class_name)
 
         unless inverse_association
@@ -17,14 +17,19 @@ module AssociationScope
         end
 
         foreign_key = reflection_details.foreign_key
-        table_name = model.table_name
-        join = "JOIN #{table_name} ON #{table_name}.#{foreign_key} = #{class_name.table_name}.id"
+        validate_scope!(reflection_details)
+        owner_table = model.arel_table
+        target_table = class_name.arel_table
+        join = target_table.join(owner_table).on(
+          owner_table[foreign_key].eq(target_table[reflection_details.association_primary_key])
+        ).join_sources
+        join_sql = join.map(&:to_sql).join(" ")
 
         model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           scope association.pluralize, -> do
             class_name
-              .joins(#{join.inspect})
-              .where(#{table_name.inspect} => { #{foreign_key.inspect} =>
+              .joins(#{join_sql.inspect})
+              .where(#{model.table_name.inspect} => { #{foreign_key.inspect} =>
                 select(#{foreign_key.inspect}) })
               .distinct
           end

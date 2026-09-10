@@ -5,8 +5,9 @@ module AssociationScope
     class HasAndBelongsToManyReflection < Scope
       def apply
         association = @association.pluralize
-        class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
+        class_name = reflection_details.klass
         inverse_association = inverse_association(class_name)
+        validate_scope!(reflection_details)
 
         raise AssociationMissingError.new(missing_in: class_name, association: model.table_name) unless inverse_association
 

@@ -5,8 +5,16 @@ module AssociationScope
     class ThroughReflection < Scope
       def apply
         association = @association
-        class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
+        class_name = begin
+          reflection_details.klass
+        rescue ActiveRecord::AmbiguousSourceReflectionForThroughAssociation
+          # Rails cannot resolve an omitted source when multiple source
+          # reflections exist; retain the historical association-name
+          # fallback for this inherently ambiguous case.
+          association.singularize.camelize.constantize
+        end
         source = reflection_details.options[:source] && reflection_details.source_reflection
+        validate_scope!(reflection_details)
         source ||= reflection_details.through_reflection.klass.reflections.values.find do |candidate|
           candidate.name.to_s == association.to_s && candidate.klass == class_name && candidate.through_reflection?
         end

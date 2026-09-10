@@ -4,7 +4,7 @@ module AssociationScope
   class Scope
     class HasManyReflection < Scope
       def apply
-        class_name = reflection_details.options[:class_name]&.constantize || association.singularize.camelize.constantize
+        class_name = reflection_details.klass
 
         association = @association.pluralize
         column_name = reflection_details.options[:as] || model.to_s.underscore
@@ -13,6 +13,7 @@ module AssociationScope
         raise AssociationMissingError.new(missing_in: class_name, association: column_name) unless inverse_association
 
         association_scope = reflection_details.scope
+        validate_scope!(reflection_details)
         polymorphic = reflection_details.options[:as]
         foreign_key = inverse_association.foreign_key
         target_table = class_name.table_name
