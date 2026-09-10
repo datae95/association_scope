@@ -12,19 +12,20 @@ module AssociationScope
 
         raise AssociationMissingError.new(missing_in: class_name, association: column_name) unless inverse_association
 
-        condition = if reflection_details.options[:as]
-          "#{column_name.inspect} => self"
-        else
-          "#{class_name.table_name.inspect} => { #{inverse_association.foreign_key.inspect} => self }"
-        end
+        association_scope = reflection_details.options[:scope]
+        polymorphic = reflection_details.options[:as]
+        foreign_key = inverse_association.foreign_key
+        target_table = class_name.table_name
 
-        model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-          scope association, -> do
-            class_name
-              .where(#{condition})
-              .distinct
+        model.scope association, -> do
+          relation = class_name
+          relation = relation.instance_eval(&association_scope) if association_scope
+          if polymorphic
+            relation.where(column_name => self).distinct
+          else
+            relation.where(target_table => {foreign_key => self}).distinct
           end
-        RUBY
+        end
       end
 
       private

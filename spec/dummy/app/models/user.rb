@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   has_many :topics
+  has_many :scoped_topics, -> { where(id: 1) }, class_name: "Topic"
   has_many :posts, class_name: "Topic"
   has_one :account
   has_one :topic
@@ -12,5 +13,5 @@ class User < ApplicationRecord
   has_many :liked_topics, through: :likes, class_name: "Topic", source: :topic, inverse_of: :likers
   has_many :pictures, as: :imageable
 
-  has_association_scope_on [:topics, :posts, :account, :profile, :likes, :liked_topics, :pictures]
+  has_association_scope_on [:topics, :scoped_topics, :posts, :account, :profile, :likes, :liked_topics, :pictures]
 end
