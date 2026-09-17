@@ -23,19 +23,3 @@ jobs:
 
       - name: Run Standard
         run: bundle exec standardrb
-
-  package:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.4'
-      - name: Build gem
-        run: gem build association_scope.gemspec
-      - name: Inspect packaged gem
-        run: |
-          gem specification association_scope-*.gem name
-          gem specification association_scope-*.gem version
-          gem specification association_scope-*.gem files

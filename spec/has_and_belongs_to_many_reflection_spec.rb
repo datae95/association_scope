@@ -36,6 +36,18 @@ RSpec.describe "HasAndBelongsToManyReflection" do
     it { expect(Part.where(id: part3.id).devices).to eq [] }
   end
 
+  context "with a scoped association" do
+    it "preserves HABTM association predicates" do
+      assembly = Assembly.create!
+      disabled_part = Part.create!(active: false)
+      enabled_part = Part.create!(active: true)
+      assembly.parts << [disabled_part, enabled_part]
+
+      expect(Assembly.where(id: assembly.id).active_parts).to eq [enabled_part]
+      expect(Assembly.active_parts).to eq assembly.active_parts
+    end
+  end
+
   context "with missing corresponding association" do
     it do
       expect do

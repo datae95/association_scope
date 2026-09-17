@@ -57,6 +57,31 @@ Topic.all.users
 ```
 to retrieve the users of all of the topics of your application.
 
+The argument must be an array of association names.
+Each generated relation scope uses the pluralized association name: `:user`
+creates `.users`, and `:profile` creates `.profiles`. Names must be unique
+after pluralization and must not already be defined as class methods/scopes.
+There is no `only:` or `except:` option; list exactly the associations to
+expose.
+
+### Inverse associations
+
+The association must have a matching inverse association on its target model.
+AssociationScope uses that inverse to construct the join. Define both sides
+before calling `has_association_scope_on`, and use `inverse_of` when the inverse
+cannot be inferred (for example, with a custom `class_name` or `source`):
+
+```ruby
+class Topic < ApplicationRecord
+  belongs_to :user, inverse_of: :topics
+  has_association_scope_on [:user]
+end
+
+class User < ApplicationRecord
+  has_many :topics, inverse_of: :user
+end
+```
+
 ### Supported association types
 
 `has_association_scope_on` supports `belongs_to`, `has_one`, `has_many`,
@@ -116,11 +141,13 @@ JSON type behavior.
 
 ### Upgrade notes
 
-The next release drops support for Ruby versions before 3.2 and Rails versions
+Version 1.0 drops support for Ruby versions before 3.2 and Rails versions
 before 7.1. Upgrade Ruby and Rails first, then run `bundle update
 association_scope`. If you previously relied on a polymorphic `belongs_to`
 association scope, replace it with an explicit application scope; that
-association type is intentionally rejected.
+association type is intentionally rejected. Also ensure every exposed
+association has an inverse on its target model and remove unsupported
+`only:`/`except:` arguments.
 
 ## Development
 Clone this repository and run `bundle`.
@@ -132,3 +159,10 @@ To use `rails console` you have to navigate to the dummy application
 ```bash
 $ cd spec/dummy
 ```
+
+### Verification
+
+Run the test suite with `bundle exec rake` (or `bundle exec rspec`). Check
+formatting with `bundle exec standardrb` and dependencies with
+`bundle exec bundler-audit check --update`. The CI matrix additionally runs
+the suite on the supported Ruby/Rails combinations with SQLite and PostgreSQL.

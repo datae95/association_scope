@@ -18,22 +18,15 @@ module AssociationScope
 
         foreign_key = reflection_details.foreign_key
         validate_scope!(reflection_details)
-        owner_table = model.arel_table
-        target_table = class_name.arel_table
-        join = target_table.join(owner_table).on(
-          owner_table[foreign_key].eq(target_table[reflection_details.association_primary_key])
-        ).join_sources
-        join_sql = join.map(&:to_sql).join(" ")
+        association_scope = reflection_details.scope
+        owner_key = model.arel_table[foreign_key]
+        target_key = class_name.arel_table[reflection_details.association_primary_key]
 
-        model.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-          scope association.pluralize, -> do
-            class_name
-              .joins(#{join_sql.inspect})
-              .where(#{model.table_name.inspect} => { #{foreign_key.inspect} =>
-                select(#{foreign_key.inspect}) })
-              .distinct
-          end
-        RUBY
+        model.scope association.pluralize, -> do
+          Scope.target_relation(class_name, association_scope)
+            .where(target_key.in(reselect(owner_key).arel))
+            .distinct
+        end
       end
 
       private

@@ -28,9 +28,33 @@ module AssociationScope
 
       model.reflections.slice(*reflections).each do |association, details|
         scope_type = details.class.to_s.split("::").last
+        scope_type = "HasManyReflection" if scope_type == "HasOneReflection"
 
         "AssociationScope::Scope::#{scope_type}".constantize.new(model, association).apply
       end
+    end
+
+    def self.target_relation(klass, *scopes)
+      # Start independently of the owners' current scope, including for self joins.
+      scopes.compact.reduce(klass.default_scoped) do |relation, scope|
+        relation.instance_exec(&scope) || relation
+      end
+    end
+
+    def self.one_per_owner(relation, owner_key)
+      klass = relation.klass
+      table = klass.arel_table
+      orders = relation.arel.orders.presence || [table[klass.primary_key].asc]
+      window = Arel::Nodes::Window.new.partition(owner_key).order(*orders)
+      row_number = Arel::Nodes::NamedFunction.new("ROW_NUMBER", []).over(window)
+      ranked = relation.except(:select, :order, :limit, :offset, :distinct)
+        .select(table[Arel.star], row_number.as("association_scope_row_number"))
+
+      # Keep ordering inside the window so offsets select a record for each owner.
+      result = klass.unscoped.from(ranked, klass.table_name)
+        .where(table[:association_scope_row_number].eq(relation.offset_value.to_i + 1))
+        .distinct
+      relation.select_values.any? ? result.select(*relation.select_values) : result
     end
 
     private
